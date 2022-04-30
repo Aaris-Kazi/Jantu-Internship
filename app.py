@@ -25,9 +25,34 @@ def student_record(db: Session= Depends(get_db)):
 
 @app.get("/add_students/{name}")
 def add_student(name:str, db: Session= Depends(get_db)):
-    add = models.Students(name = name)
-    db.add(add)
-    db.commit()
-    return "success"
+    try:
+        add = models.Students(name = name)
+        db.add(add)
+        db.commit()
+        return "success"
+    except Exception as e:
+        return "Issue occured "+e
+
+@app.get("/add_books/{name}")
+def add_student(name:str, db: Session= Depends(get_db)):
+    try:
+        add = models.Books(name = name)
+        db.add(add)
+        db.commit()
+        return "success"
+    except Exception as e:
+        return "Issue occured "+e
+
+
+@app.get("/books")
+def student_record(db: Session= Depends(get_db)):
+    record = db.query(models.Books).all()
+    return record
+
+@app.get("/managemnt")
+def student_record(db: Session= Depends(get_db)):
+    record = db.query(models.Managements).all()
+    return record
+
 
 # uvicorn app:app --reload
