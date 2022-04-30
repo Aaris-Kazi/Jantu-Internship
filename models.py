@@ -20,7 +20,7 @@ class Inventory(Base):
     __tablename__ = "Inventory"
 
     id = Column(Integer, primary_key=True, index=True)
-    student_name = Column(String, unique=True, index=True)
+    student_name = Column(String, index=True)
     Book_name = Column(String, index=True)
     returned = Column(Boolean, default=True)
     
