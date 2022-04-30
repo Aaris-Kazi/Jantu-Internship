@@ -6,7 +6,7 @@ class Students(Base):
     __tablename__ = "Students"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
+    student_name = Column(String, index=True)
     # items = relationship("Item", back_populates="owner")
 
 class Books(Base):
@@ -16,8 +16,8 @@ class Books(Base):
     name = Column(String, unique=True, index=True)
     available = Column(Boolean, default=True)
     
-class Management(Base):
-    __tablename__ = "Management"
+class Inventory(Base):
+    __tablename__ = "Inventory"
 
     id = Column(Integer, primary_key=True, index=True)
     student_name = Column(String, unique=True, index=True)

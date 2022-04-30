@@ -26,12 +26,17 @@ def student_record(db: Session= Depends(get_db)):
 @app.get("/add_students/{name}")
 def add_student(name:str, db: Session= Depends(get_db)):
     try:
-        add = models.Students(name = name)
+        add = models.Students(student_name = name)
         db.add(add)
         db.commit()
         return "success"
     except Exception as e:
         return "Issue occured "+e
+
+@app.get("/books")
+def student_record(db: Session= Depends(get_db)):
+    record = db.query(models.Books).all()
+    return record
 
 @app.get("/add_books/{name}")
 def add_student(name:str, db: Session= Depends(get_db)):
@@ -44,10 +49,6 @@ def add_student(name:str, db: Session= Depends(get_db)):
         return "Issue occured "+e
 
 
-@app.get("/books")
-def student_record(db: Session= Depends(get_db)):
-    record = db.query(models.Books).all()
-    return record
 
 @app.get("/managemnt")
 def student_record(db: Session= Depends(get_db)):
