@@ -16,9 +16,9 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/")
-def home():
-    return {"hello": "world"}
+# @app.get("/")
+# def home():
+#     return {"hello": "world"}
 
 @app.get("/students")
 def student_record(db: Session= Depends(get_db)):
@@ -35,7 +35,7 @@ def add_student(name:str, db: Session= Depends(get_db)):
     except Exception as e:
         return "Issue occured "+e
 
-@app.get("/books")
+@app.get("/")
 def student_record(db: Session= Depends(get_db)):
     record = db.query(models.Books).all()
     return record
@@ -65,13 +65,6 @@ def student_record(b_name,  db: Session= Depends(get_db)):
     engine.execute(u)
     return "success"
 
-@app.get("/select")
-def student_record(db: Session= Depends(get_db)):
-    sel = select(models.Students.id).where(models.Students.student_name == "Aaris")
-    res = engine.execute(sel)
-    res =res.fetchone()
-    print(res)
-    return res
 
 def book_update(b_name, val):
     upd = update(models.Books)
