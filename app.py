@@ -1,4 +1,3 @@
-from operator import and_
 from fastapi import FastAPI, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from sqlalchemy import update, select, and_
