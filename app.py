@@ -92,32 +92,46 @@ def book_stat(book_name):
     res =res.fetchone()
     return res
 
+def book_count(book_name,db: Session= Depends(get_db)):
+    sel = select(models.Books.name).where(models.Books.name == book_name)
+    # sel = db.query(models.Books.name == book_name).count()
+    res = engine.execute(sel)
+    data = [i for i in res]
+    # res  =res.fetchone()
+    return data
+
     
 @app.get("/issue_books/{s_name}/{b_name}")
 def issue_books(s_name:str, b_name:str, db: Session= Depends(get_db)):
-    res = book_stat(b_name)
-    # print(res, type(res))
-    res = str(res)
-    if res == '(True,)':
-        try:
-            print(s_name, b_name)
-            book_update(b_name, 0)
-            add = models.Inventory(student_name = s_name, Book_name= b_name, returned = 0)
-            db.add(add)
-            db.commit()
-            return "success"
-        except Exception as e:
-            e
-        print('true')
+    s =book_count(b_name)
+    print(len(s))
+    if len(s) == 0:
+        print('Book Does not Exist')
+        return 'Book Does not Exist'
     else:
-        print('false')
-        return "Book already issued"
+        res = book_stat(b_name)
+        # print(res,  type(res))
+        res = str(res)
+        if res == '(True,)':
+            try:
+                print(s_name, b_name)
+                book_update(b_name, 0)
+                add = models.Inventory(student_name = s_name, Book_name= b_name, returned = 0)
+                db.add(add)
+                db.commit()
+                return "success"
+            except Exception as e:
+                e
+            print('true')
+        else:
+            print('false')
+            return "Book already issued"
     
 @app.get("/return_books/{s_name}/{b_name}")
 def return_books(s_name:str, b_name:str, db: Session= Depends(get_db)):
     res = book_stat(b_name)
     res = str(res)
-    if res == '(True,)':
+    if res != '(True,)':
         print('')
         book_update(b_name, 1)
         invent_update(s_name, b_name, 1)
